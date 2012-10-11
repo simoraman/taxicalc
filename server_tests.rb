@@ -24,4 +24,9 @@ class AppTest < Test::Unit::TestCase
     result = JSON.parse(last_response.body)
     assert_equal(14.8, result['price'])
   end
+  def test_calculate_from_string_params
+    post '/calculate', {:distance=>"10", :passengers=>"2"}.to_json, "CONTENT_TYPE" => "application/json"
+    result = JSON.parse(last_response.body)
+    assert_equal(14.8, result['price'])
+  end
 end
