@@ -1,6 +1,6 @@
 require "test/unit"
-require 'fare_calculator'
-require 'price_class'
+require './fare_calculator'
+require './price_class'
 
 class TestFareCalculator < Test::Unit::TestCase
   def setup
@@ -30,6 +30,12 @@ class TestFareCalculator < Test::Unit::TestCase
     @calc.base_charge = 5.7
     price = @calc.calculate(@distance) 
     assert_in_delta(13.1, price, 0.001)
+  end
+  
+  def test_zero_passengers_zero_price
+    @calc.passengers = 0
+    price = @calc.calculate(@distance)
+    assert_equal(0, price)
   end
   
 end

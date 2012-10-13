@@ -8,6 +8,9 @@ class FareCalculator
   end
   
   def calculate distance
+      if(passengers<=0) 
+        return 0 
+      end
       price_class = @price_classes[@passengers]
       (price_class * distance) + @base_charge
   end

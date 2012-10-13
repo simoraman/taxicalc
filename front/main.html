@@ -60,14 +60,22 @@ body {
 						<input type="text" id='to' placeholder="To" />
 						<label>Passengers</label>
 						<input type="number" id='passengers' placeholder="Passengers" min="1" max="6" />
-						<br/>	
-						<button class="btn" id="button">Calculate!</button>
+						<br/>
+						<div class='row'>
+							<button class="btn" id="distanceButton">Calculate distance</button>	
+							<button class="btn" id="button">Calculate price</button>
+						</div>
 					</form>
 				</div>
 				<div id="map_canvas"  style="width:300px; height:300px;"></div>
 			</div>
 			<br/>
 			<div class='row'>
+				<div id="distance" class="well span4"></div>
+			</div>
+			<br/>
+			<div class='row'>
+				
 				<div id="price" class="well span4"></div>
 			</div>
 			<div id="error"></div>
@@ -83,11 +91,15 @@ body {
 		<script>
 			$(document).ready(function(){
 				initializeMap();
-				initializeDistanceMatrix();
+				
+			});
+			$('#distanceButton').click(function() { 
+				initializeDistanceMatrix($('#from').val(), $('#to').val());
+				return false;
 			});
 			$('#button').click(function() { 
-				var dataobject=JSON.stringify({ distance:$('#distance').val(), passengers:$('#passengers').val() });
-				//var dataobject=JSON.stringify({ distance:5, passengers:2 });
+				var dataobject=JSON.stringify({ distance:$('#distance').text(), passengers:$('#passengers').val() });
+			
 				$.ajax({
 			    	url: 'calculate',
 			    	type: 'POST',
@@ -112,20 +124,18 @@ body {
 			        var map = new google.maps.Map(document.getElementById("map_canvas"),
 			            mapOptions);
 			}
-			function initializeDistanceMatrix(){
-				origin="valimotie 21, Helsinki";
-				destination="lapinlahdenkatu 9, Helsinki";
+			function initializeDistanceMatrix(origin, destination){
 				var service = new google.maps.DistanceMatrixService();
 				service.getDistanceMatrix(
 				  {
 				    origins: [origin],
 				    destinations: [destination],
 				    travelMode: google.maps.TravelMode.DRIVING
-				  }, callback);
+				  }, distanceCallback);
 
 				
 			}
-			function callback(response, status) {
+			function distanceCallback(response, status) {
 				if (status == google.maps.DistanceMatrixStatus.OK) {
 				    var origins = response.originAddresses;
 				    var destinations = response.destinationAddresses;
@@ -137,7 +147,7 @@ body {
 				        var duration = element.duration.text;
 				        var from = origins[0];
 				        var to = destinations[0];
-				      	$('#price').text(distance)
+				      	$('#distance').text(distance)
 				    }
 				  }
 			}
