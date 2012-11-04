@@ -54,6 +54,7 @@ body {
 			<div class='row'>
 				<div class='span4'>
 					<form>
+						<div class='row'>
 						<label>From</label>
 						<input type="text" id='from' placeholder="From" />
 						<label>To</label>
@@ -61,7 +62,9 @@ body {
 						<label>Passengers</label>
 						<input type="number" id='passengers' placeholder="Passengers" min="1" max="6" value="1" />
 						<br/>
+						</div>
 						<div class='row'>	
+							<button class="btn"  id="distanceButton">Calculate distance</button>
 							<button class="btn" id="button">Calculate price</button>
 						</div>
 					</form>
@@ -70,11 +73,14 @@ body {
 			</div>
 			<br/>
 			<div class='row'>
-				<div id="distance" class="well span4"></div>
+				<div class="well span4">
+					<div><strong>Distance: </strong> <span id="distance"></div>
+					<div><strong>Duration: </strong> <span id="time"/></div>
+				</div>
 			</div>
 			<br/>
 			<div class='row'>
-				
+				<strong>Price</strong>
 				<div id="price" class="well span4"></div>
 			</div>
 			<div id="error"></div>
