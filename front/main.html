@@ -11,12 +11,25 @@
 		<meta name="author" content=""><!-- Le styles -->
 		<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
 		<style type="text/css">
-body {
-		padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+		body {
+			/*padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+			background-color: #f5f5f5;
+			padding-top: 40px;
 		}
 		#map_canvas {
-		     height:100px; margin: 0; padding: 0;
+		     height:100px; 
 		}
+		#content-container{
+			background-color: #fff;
+			border: 1px solid #e5e5e5;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		}
+		
 		</style>
 		<link href="assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"><!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -30,58 +43,55 @@ body {
 		<link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></a> <a class="brand" href="#">Taxifare Calculator</a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li class="active">
-								<a href="#">Home</a>
-							</li>
-							<li>
-								<a href="#about">About</a>
-							</li>
-						</ul>
-					</div><!--/.nav-collapse -->
-				</div>
+		
+		<div id="content-container" class="container">
+			<div class='row offset1'>
+			<h1> Calculate Taxifare </h1>
 			</div>
-		</div>
-		<div class="container">
-			<h1>
-				Calculate Taxifare
-			</h1>
 			<div class='row'>
-				<div class='span4'>
-					<form>
-						<div class='row'>
-						<label>From</label>
-						<input type="text" id='from' placeholder="From" />
-						<label>To</label>
-						<input type="text" id='to' placeholder="To" />
-						<label>Passengers</label>
-						<input type="number" id='passengers' placeholder="Passengers" min="1" max="6" value="1" />
-						<br/>
+				<div class='span6'>
+					<form class="form-horizontal">
+						<div class='control-group'>
+							<label class="control-label">From</label>
+							<div class="controls">
+								<input type="text" id='from' placeholder="From" />
+							</div>
 						</div>
-						<div class='row'>	
+						<div class='control-group'>
+							<label class="control-label">To</label>
+							<div class="controls">
+								<input type="text" id='to' placeholder="To" />
+							</div>
+						</div>
+						<div class='control-group'>
+							<label class="control-label">Passengers</label>
+							<div class="controls">
+								<input type="number" id='passengers' placeholder="Passengers" 
+								min="1" max="6" value="1" />
+							</div>
+						</div>
+						
+						<div class='control-group'>	
+							<div class="controls">
 							<button class="btn"  id="distanceButton">Calculate distance</button>
+							<br/>
 							<button class="btn" id="button">Calculate price</button>
+							</div>
 						</div>
 					</form>
 				</div>
-				<div id="map_canvas"  style="width:300px; height:300px;"></div>
+				<div id="map_canvas" class="offset1"  style="width:300px; height:300px;"></div>
 			</div>
 			<br/>
-			<div class='row'>
+			<div class=''>
 				<div class="well span4">
 					<div><strong>Distance: </strong> <span id="distance"></div>
 					<div><strong>Duration: </strong> <span id="time"/></div>
 				</div>
 			</div>
-			<br/>
-			<div class='row'>
-				<strong>Price</strong>
-				<div id="price" class="well span4"></div>
+			
+			<div class=''>
+				<div  class="well span4"><strong>Price: </strong> <span id="price"/></div>
 			</div>
 			<div id="error"></div>
 			

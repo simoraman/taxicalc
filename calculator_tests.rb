@@ -38,5 +38,10 @@ class TestFareCalculator < Test::Unit::TestCase
     assert_equal(0, price)
   end
   
+  def test_result_formatted_with_two_decimals
+    @calc.base_charge = 5.71111
+    price = @calc.calculate(@distance) 
+    assert_in_delta(13.11, price, 0.001)
+  end
 end
 

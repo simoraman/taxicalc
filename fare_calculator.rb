@@ -12,7 +12,7 @@ class FareCalculator
         return 0 
       end
       price_class = @price_classes[@passengers]
-      (price_class * distance) + @base_charge
+      ((price_class * distance) + @base_charge).round 2
   end
   
   
