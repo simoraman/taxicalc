@@ -22,12 +22,12 @@ class AppTest < Test::Unit::TestCase
   def test_calculate_takes_distance_and_passenger_count
     post '/calculate', {:distance=>10, :passengers=>2}.to_json, "CONTENT_TYPE" => "application/json"
     result = JSON.parse(last_response.body)
-    assert_equal(14.8, result['price'])
+    assert_equal(20.5, result['price'])
   end
   def test_calculate_from_string_params
     post '/calculate', {:distance=>"10", :passengers=>"2"}.to_json, "CONTENT_TYPE" => "application/json"
     result = JSON.parse(last_response.body)
-    assert_equal(14.8, result['price'])
+    assert_equal(20.5, result['price'])
   end
   def test_empty_params_should_return_error
     post '/calculate', {:distance=>"", :passengers=>""}.to_json, "CONTENT_TYPE" => "application/json"  

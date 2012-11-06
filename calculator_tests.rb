@@ -1,7 +1,7 @@
 require "test/unit"
 require './fare_calculator'
 require './price_class'
-
+require 'date'
 class TestFareCalculator < Test::Unit::TestCase
   def setup
     prices = PriceClass.new({1..2=>1.48, 3..4=>1.78, 5..6=>1.92, 7..10=>2.07})
@@ -11,25 +11,24 @@ class TestFareCalculator < Test::Unit::TestCase
   
   def test_basic_fare_per_km
     price = @calc.calculate(@distance) 
-    assert_equal(7.4, price)
+    assert_in_delta(13.1, price, 0.001)
   end
   
   def test_three_passengers_elevates_price_class
     @calc.passengers = 3
     price = @calc.calculate(@distance)
-    assert_equal(8.9, price)
+    assert_equal(14.6, price)
   end
   
   def test_five_passengers_elevates_price_class
     @calc.passengers = 5
     price = @calc.calculate(@distance)
-    assert_equal(9.6, price)
+    assert_equal(15.3, price)
   end
   
   def test_base_price_is_added
-    @calc.base_charge = 5.7
-    price = @calc.calculate(@distance) 
-    assert_in_delta(13.1, price, 0.001)
+    price = @calc.calculate(0) 
+    assert_in_delta(5.7, price, 0.001)
   end
   
   def test_zero_passengers_zero_price
@@ -42,6 +41,19 @@ class TestFareCalculator < Test::Unit::TestCase
     @calc.base_charge = 5.71111
     price = @calc.calculate(@distance) 
     assert_in_delta(13.11, price, 0.001)
+  end
+  
+  def test_weekdays_base_charge
+    tuesdayAfternoon = DateTime.new(2012, 11, 6, 12,0)
+    price = @calc.calculate(@distance, tuesdayAfternoon) 
+    assert_in_delta(13.1, price, 0.001)
+  end
+  
+  def test_base_charge_is_elevated_on_sunday
+    sunday = DateTime.new(2012, 11, 4)
+    price = @calc.calculate(@distance, sunday) 
+    assert_in_delta(16.2, price, 0.001)
+    
   end
 end
 
