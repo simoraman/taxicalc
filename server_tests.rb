@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'test/unit'
 require 'rack/test'
-require './taxicalc_server'
+require_relative 'taxicalc_server'
 require 'json'
 ENV['RACK_ENV'] = 'test'
 

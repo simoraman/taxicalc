@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'json'
-require './fare_calculator'
-require './price_class'
+require_relative 'fare_calculator'
+require_relative 'price_class'
 
 set :public_folder, File.dirname(__FILE__) + '/front'
 get '/' do

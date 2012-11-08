@@ -7,3 +7,5 @@ front/mapstest.html
 *.lock
 
 Gemfile~
+
+#Rakefile#

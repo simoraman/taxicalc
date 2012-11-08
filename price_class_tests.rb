@@ -1,5 +1,5 @@
 require "test/unit"
-require 'price_class'
+require_relative 'price_class'
 
 class PriceClassTests < Test::Unit::TestCase
   def test_price_classes_are_defined_by_range

@@ -1,6 +1,6 @@
 require "test/unit"
-require './fare_calculator'
-require './price_class'
+require_relative 'fare_calculator'
+require_relative 'price_class'
 require 'date'
 class TestFareCalculator < Test::Unit::TestCase
   def setup
