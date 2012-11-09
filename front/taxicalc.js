@@ -2,10 +2,17 @@ $(document).ready(function() {
 	initializeMap();
 });
 
-$('#distanceButton').click(function() {
-	initializeDistanceMatrix($('#from').val(), $('#to').val());
+$('#to').focusout(calculateDistance);
+$('#from').focusout(calculateDistance);
+
+function calculateDistance() {
+	var from=$('#from').val();
+	var to=$('#to').val();
+	if(from!=''&&to!=''){
+		initializeDistanceMatrix(from, to);
+	}
 	return false;
-});
+}
 
 $('#button').click(function() {
 	var dataobject = JSON.stringify({
@@ -34,20 +41,31 @@ var map;
 var directionsDisplay;
 
 function initializeMap() {
-	var mapOptions = {
-		center: new google.maps.LatLng(60.168058, 24.94169),
-		zoom: 8,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	var canvas = $('#map_canvas')[0];
-	map = new google.maps.Map(canvas, mapOptions);
-	directionsDisplay = new google.maps.DirectionsRenderer();
-	directionsDisplay.setMap(map);
-
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(function(position){
+			createMap(position.coords.latitude, position.coords.longitude);
+		});
+	}
+	else{
+		createMap(60.168058, 24.94169);
+	}
 	new google.maps.places.Autocomplete($('#from')[0]);
 	new google.maps.places.Autocomplete($('#to')[0]);
 }
 
+function createMap(latitude, longitude){
+
+	var mapOptions = {
+		center: new google.maps.LatLng(latitude, longitude),
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+
+	var canvas = $('#map_canvas')[0];
+	map = new google.maps.Map(canvas, mapOptions);
+	directionsDisplay = new google.maps.DirectionsRenderer();
+	directionsDisplay.setMap(map);
+}
 function initializeDistanceMatrix(origin, destination) {
 	var service = new google.maps.DistanceMatrixService();
 	service.getDistanceMatrix({
@@ -83,6 +101,25 @@ function distanceCallback(response, status) {
 		
 		$('#distance').text(distance)
 		$('#time').text(duration)
+		
+		var dataobject = JSON.stringify({
+			distance: distance,
+			passengers: $('#passengers').val()
+		});
 
+		$.ajax({
+			url: 'calculate',
+			type: 'POST',
+			contentType: 'application/javascript; charset=utf-8',
+			dataType: 'json',
+			data: dataobject,
+			success: function(data) {
+				$('#price').text(data.price + " €");
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				$('#error').text(xhr.responseText);
+			}
+		});
+		return false;
 	}
 }
