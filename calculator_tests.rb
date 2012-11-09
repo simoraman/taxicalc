@@ -45,13 +45,20 @@ class TestFareCalculator < Test::Unit::TestCase
   
   def test_weekdays_base_charge
     tuesdayAfternoon = DateTime.new(2012, 11, 6, 12,0)
-    price = @calc.calculate(@distance, tuesdayAfternoon) 
+    prices = PriceClass.new({1..2=>1.48, 3..4=>1.78, 5..6=>1.92, 7..10=>2.07})
+    @calc = FareCalculator.new prices, tuesdayAfternoon
+    @distance = 5
+    price = @calc.calculate @distance
     assert_in_delta(13.1, price, 0.001)
   end
   
   def test_base_charge_is_elevated_on_sunday
     sunday = DateTime.new(2012, 11, 4)
-    price = @calc.calculate(@distance, sunday) 
+    prices = PriceClass.new({1..2=>1.48, 3..4=>1.78, 5..6=>1.92, 7..10=>2.07})
+    @calc = FareCalculator.new prices, sunday
+    @distance = 5
+    
+    price = @calc.calculate @distance
     assert_in_delta(16.2, price, 0.001)
     
   end
