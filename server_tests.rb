@@ -1,3 +1,4 @@
+require_relative "test_helper"
 require 'rubygems'
 require 'sinatra'
 require 'test/unit'

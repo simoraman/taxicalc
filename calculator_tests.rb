@@ -1,3 +1,4 @@
+require_relative "test_helper"
 require "test/unit"
 require_relative 'fare_calculator'
 require_relative 'price_class'
