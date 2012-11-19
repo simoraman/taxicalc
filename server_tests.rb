@@ -31,7 +31,7 @@ class AppTest < Test::Unit::TestCase
     assert_equal(20.5, result['price'])
   end
   def test_empty_params_should_return_error
-    post '/calculate', {:distance=>"", :passengers=>""}.to_json, "CONTENT_TYPE" => "application/json"  
+    post '/calculate', "", "CONTENT_TYPE" => "application/json"  
     assert last_response.ok?
   end
   def test_missing_params_should_not_fail
