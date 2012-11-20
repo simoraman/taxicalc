@@ -5,8 +5,9 @@ require_relative 'price_class'
 require 'date'
 class TestFareCalculator < Test::Unit::TestCase
   def setup
+    monday = DateTime.new(2012, 11, 5)
     prices = PriceClass.new({1..2=>1.48, 3..4=>1.78, 5..6=>1.92, 7..10=>2.07})
-    @calc = FareCalculator.new prices
+    @calc = FareCalculator.new prices, monday
     @distance = 5
   end
   
