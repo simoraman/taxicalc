@@ -2,8 +2,10 @@ $(document).ready(function() {
 	initializeMap();
 });
 
-$('#to').focusout(calculateDistance);
-$('#from').focusout(calculateDistance);
+$('#button').click(function() {
+	calculateDistance();
+	return false;
+});
 
 function calculateDistance() {
 	var from=$('#from').val();
@@ -13,28 +15,6 @@ function calculateDistance() {
 	}
 	return false;
 }
-
-$('#button').click(function() {
-	var dataobject = JSON.stringify({
-		distance: $('#distance').text(),
-		passengers: $('#passengers').val()
-	});
-
-	$.ajax({
-		url: 'calculate',
-		type: 'POST',
-		contentType: 'application/javascript; charset=utf-8',
-		dataType: 'json',
-		data: dataobject,
-		success: function(data) {
-			$('#price').text(data.price + " €");
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			$('#error').text(xhr.responseText);
-		}
-	});
-	return false;
-});
 
 var markersArray = [];
 var map;
@@ -96,30 +76,15 @@ function distanceCallback(response, status) {
 		var distance = element.distance.text;
 		var duration = element.duration.text;
 		
-		var from = response.originAddresses[0];
-		var to = response.destinationAddresses[0];
-		
 		$('#distance').text(distance)
 		$('#time').text(duration)
 		
-		var dataobject = JSON.stringify({
-			distance: distance,
-			passengers: $('#passengers').val()
-		});
+		var calc=new FareCalculator();
+		calc.addDistance(parseFloat(distance));
+		calc.passengers=$('#passengers').val();
+		var charge=calc.getCharge();
+		$('#price').text(charge + " €");
 
-		$.ajax({
-			url: 'calculate',
-			type: 'POST',
-			contentType: 'application/javascript; charset=utf-8',
-			dataType: 'json',
-			data: dataobject,
-			success: function(data) {
-				$('#price').text(data.price + " €");
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				$('#error').text(xhr.responseText);
-			}
-		});
 		return false;
 	}
 }
